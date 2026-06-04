@@ -12,7 +12,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="68"/>
         </Grid.RowDefinitions>
 
         <!-- KHU VỰC TRÌNH BÀY HÓA ĐƠN (REPORT ĐƠN GIẢN) -->
@@ -127,8 +127,8 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Button Content="Đóng" Style="{StaticResource SecondaryButton}" Height="36" Margin="0,0,5,0" Click="btnCancel_Click"/>
-                <Button Content="In Hóa Đơn (PDF/Printer)" Style="{StaticResource ModernButton}" Height="36" Grid.Column="1" Margin="5,0,0,0" Click="btnPrint_Click"/>
+                <Button Content="Đóng" Style="{StaticResource SecondaryButton}" Height="38" Padding="0" Margin="0,0,5,0" Click="btnCancel_Click"/>
+                <Button Content="In Hóa Đơn (PDF/Printer)" Style="{StaticResource ModernButton}" Height="38" Padding="0" Grid.Column="1" Margin="5,0,0,0" Click="btnPrint_Click"/>
             </Grid>
         </Border>
     </Grid>

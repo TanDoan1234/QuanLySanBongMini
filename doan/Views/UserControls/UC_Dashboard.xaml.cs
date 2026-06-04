@@ -372,12 +372,17 @@ namespace doan.Views.UserControls
                 using (var context = new QLSanBongDbContext())
                 {
                     // 3. Thuật toán kiểm tra trùng lịch sân bóng (Ràng buộc nghiệp vụ quan trọng)
-                    // Lọc các lịch đặt chưa bị hủy và chưa thanh toán xong, đang giữ sân trong khoảng thời gian trùng nhau
-                    bool isOverlap = context.PhieuDatSans.Any(p => 
-                        p.MaSan == currentPitch.MaSan && 
-                        p.NgayDat.Date == date.Value.Date &&
-                        p.TrangThai != "Đã hủy" && 
-                        p.TrangThai != "Đã thanh toán" &&
+                    // Lọc các lịch đặt của sân này trong ngày được chọn về bộ nhớ trước để tránh lỗi dịch LINQ của SQLite
+                    DateTime targetDate = date.Value.Date;
+                    var activeBookings = context.PhieuDatSans
+                        .Where(p => p.MaSan == currentPitch.MaSan && 
+                                    p.NgayDat == targetDate && 
+                                    p.TrangThai != "Đã hủy" && 
+                                    p.TrangThai != "Đã thanh toán")
+                        .ToList();
+
+                    // Kiểm tra trùng lắp khoảng thời gian trên RAM
+                    bool isOverlap = activeBookings.Any(p => 
                         startTime < p.GioKetThuc && 
                         endTime > p.GioBatDau);
 
@@ -674,7 +679,7 @@ namespace doan.Views.UserControls
                     // 1. Tính toán số tiền
                     TimeSpan duration = currentBooking.GioKetThuc - currentBooking.GioBatDau;
                     decimal tienSan = (decimal)duration.TotalHours * currentPitch.DonGiaTheoGio;
-                    decimal tienDV = context.ChiTietHoaDonDichVus.Where(c => c.MaHoaDon == currentBill.MaHoaDon).Sum(c => c.ThanhTien);
+                    decimal tienDV = context.ChiTietHoaDonDichVus.Where(c => c.MaHoaDon == currentBill.MaHoaDon).ToList().Sum(c => c.ThanhTien);
                     decimal tongTien = tienSan + tienDV - discount + surcharge;
                     if (tongTien < 0) tongTien = 0;
 

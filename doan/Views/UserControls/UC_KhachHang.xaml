@@ -5,8 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:doan.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="900" Background="#F8FAFC">
-    <Grid Margin="15">
+             d:DesignHeight="600" d:DesignWidth="900" Background="#F1F5F9">
+    <Grid Margin="5">
         <Grid.ColumnDefinitions>
             <!-- Bên trái: Danh sách -->
             <ColumnDefinition Width="*"/>
@@ -17,8 +17,11 @@
         </Grid.ColumnDefinitions>
 
         <!-- BẢNG DANH SÁCH KHÁCH HÀNG -->
-        <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
-            <Grid Margin="15">
+        <Border Grid.Column="0" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Color="#000000" Opacity="0.03" ShadowDepth="3" Direction="270"/>
+            </Border.Effect>
+            <Grid Margin="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -31,8 +34,8 @@
                     </Grid.ColumnDefinitions>
                     
                     <StackPanel Grid.Column="0">
-                        <TextBlock Text="Quản Lý Khách Hàng" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
-                        <TextBlock Text="Danh sách khách hàng đăng ký đặt sân bóng" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock Text="Quản Lý Khách Hàng" FontSize="18" FontWeight="Bold" Foreground="#1E4E79" Margin="0,0,0,4"/>
+                        <TextBlock Text="Danh sách khách hàng đăng ký đặt sân bóng trong hệ thống" FontSize="12" Foreground="#64748B"/>
                     </StackPanel>
 
                     <!-- Tìm kiếm (Yêu cầu STT 2) -->
@@ -41,7 +44,7 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBox x:Name="txtSearchCustomer" Style="{StaticResource ModernTextBox}" Tag="Số điện thoại hoặc Tên..." Margin="0,0,5,0" TextChanged="txtSearchCustomer_TextChanged"/>
+                        <TextBox x:Name="txtSearchCustomer" Style="{StaticResource ModernTextBox}" Tag="Số điện thoại hoặc Tên..." Margin="0,0,8,0" TextChanged="txtSearchCustomer_TextChanged" Background="#F8FAFC"/>
                         <Button Content="Tìm" Style="{StaticResource SecondaryButton}" Padding="15,0" Height="36" Grid.Column="1" Click="btnSearchCustomer_Click"/>
                     </Grid>
                 </Grid>
@@ -50,16 +53,19 @@
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="Mã" Binding="{Binding MaKhachHang}" Width="60"/>
                         <DataGridTextColumn Header="Tên khách hàng" Binding="{Binding TenKhachHang}" Width="*"/>
-                        <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="150"/>
-                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180"/>
+                        <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="140"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="170"/>
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
         </Border>
 
         <!-- FORM THÔNG TIN KHÁCH HÀNG -->
-        <Border Grid.Column="2" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
-            <Grid Margin="15">
+        <Border Grid.Column="2" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Color="#000000" Opacity="0.03" ShadowDepth="3" Direction="270"/>
+            </Border.Effect>
+            <Grid Margin="20">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
@@ -67,25 +73,25 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Margin="0,0,0,15">
-                    <TextBlock Text="Chi Tiết Khách Hàng" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                    <TextBlock Text="Chi Tiết Khách Hàng" FontSize="18" FontWeight="Bold" Foreground="#1E4E79" Margin="0,0,0,4"/>
                     <TextBlock Text="Thêm mới hoặc cập nhật thông tin khách hàng" FontSize="12" Foreground="#64748B"/>
-                    <Separator Height="1" Background="#E2E8F0" Margin="0,10,0,0"/>
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,12,0,0"/>
                 </StackPanel>
 
                 <!-- Các trường nhập -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Style="{StaticResource ModernScrollViewer}">
                     <StackPanel Margin="0,5">
                         <!-- Tên khách hàng -->
-                        <TextBlock Text="Họ và tên khách hàng *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
-                        <TextBox x:Name="txtCustomerName" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+                        <TextBlock Text="Họ và tên khách hàng *" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCustomerName" Style="{StaticResource ModernTextBox}" Height="38" Margin="0,0,0,15" Background="#F8FAFC"/>
 
                         <!-- Số điện thoại -->
-                        <TextBlock Text="Số điện thoại *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
-                        <TextBox x:Name="txtCustomerPhone" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+                        <TextBlock Text="Số điện thoại *" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCustomerPhone" Style="{StaticResource ModernTextBox}" Height="38" Margin="0,0,0,15" Background="#F8FAFC"/>
 
                         <!-- Email -->
-                        <TextBlock Text="Địa chỉ Email" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
-                        <TextBox x:Name="txtCustomerEmail" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+                        <TextBlock Text="Địa chỉ Email" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCustomerEmail" Style="{StaticResource ModernTextBox}" Height="38" Margin="0,0,0,15" Background="#F8FAFC"/>
                     </StackPanel>
                 </ScrollViewer>
 
@@ -93,7 +99,7 @@
                 <StackPanel Grid.Row="2" Margin="0,10,0,0">
                     <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,15"/>
                     <Button x:Name="btnNewCustomer" Content="Làm Mới Form" Style="{StaticResource SecondaryButton}" Height="38" Margin="0,0,0,10" Click="btnNewCustomer_Click"/>
-                    <Button x:Name="btnSaveCustomer" Content="Lưu Khách Hàng" Style="{StaticResource ModernButton}" Height="38" Margin="0,0,0,10" Click="btnSaveCustomer_Click"/>
+                    <Button x:Name="btnSaveCustomer" Content="Lưu Khách Hàng" Style="{StaticResource ModernButton}" Height="38" Margin="0,0,0,10" Click="btnSaveCustomer_Click" Background="#1E4E79"/>
                     <Button x:Name="btnDeleteCustomer" Content="Xóa Khách Hàng" Style="{StaticResource DangerButton}" Height="38" Click="btnDeleteCustomer_Click"/>
                 </StackPanel>
             </Grid>

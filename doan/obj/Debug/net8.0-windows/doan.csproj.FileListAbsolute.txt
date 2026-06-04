@@ -120,3 +120,4 @@ D:\DEV\HUIT\NET\Doan\doan\bin\Debug\net8.0-windows\runtimes\win-arm\native\e_sql
 D:\DEV\HUIT\NET\Doan\doan\bin\Debug\net8.0-windows\runtimes\win-arm64\native\e_sqlite3.dll
 D:\DEV\HUIT\NET\Doan\doan\bin\Debug\net8.0-windows\runtimes\win-x64\native\e_sqlite3.dll
 D:\DEV\HUIT\NET\Doan\doan\bin\Debug\net8.0-windows\runtimes\win-x86\native\e_sqlite3.dll
+D:\DEV\HUIT\NET\Doan\doan\obj\Debug\net8.0-windows\doan.sourcelink.json

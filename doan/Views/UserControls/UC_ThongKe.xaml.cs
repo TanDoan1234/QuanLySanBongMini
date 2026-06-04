@@ -79,10 +79,13 @@ namespace doan.Views.UserControls
                     dgGroupedPitches.ItemsSource = groupedPitches;
 
                     // 4. Gom nhóm theo Sản phẩm / Dịch vụ đã bán chạy (Yêu cầu STT 10)
-                    var groupedProducts = context.ChiTietHoaDonDichVus
+                    var rawDetails = context.ChiTietHoaDonDichVus
                         .Include(c => c.HoaDonThanhToan)
                         .Include(c => c.SanPham)
                         .Where(c => c.HoaDonThanhToan!.TrangThai == "Đã thanh toán" && c.HoaDonThanhToan.NgayThanhToan >= fromDate && c.HoaDonThanhToan.NgayThanhToan <= toDate)
+                        .ToList();
+
+                    var groupedProducts = rawDetails
                         .GroupBy(c => new { c.SanPham!.TenSanPham, c.SanPham.DonViTinh })
                         .Select(g => new
                         {

@@ -30,6 +30,15 @@ namespace doan
             // 2. Điền thông tin tài khoản đang đăng nhập
             lblLoggedUserFullName.Text = Session.CurrentUser.HoTen;
             lblLoggedUserRole.Text = Session.CurrentUser.VaiTro == "Admin" ? "Quản trị viên" : "Nhân viên";
+            if (!string.IsNullOrEmpty(Session.CurrentUser.HoTen))
+            {
+                var nameParts = Session.CurrentUser.HoTen.Trim().Split(' ');
+                lblLoggedUserInitials.Text = nameParts[nameParts.Length - 1].Substring(0, 1).ToUpper();
+            }
+            else
+            {
+                lblLoggedUserInitials.Text = "U";
+            }
 
             // 3. Phân quyền Người dùng (Authorization - Yêu cầu STT 8 phân quyền truy cập)
             if (Session.CurrentUser.VaiTro != "Admin")
@@ -39,7 +48,6 @@ namespace doan
                 btnMenuSanBong.Visibility = Visibility.Collapsed;
                 btnMenuSanPham.Visibility = Visibility.Collapsed;
                 btnMenuThongKe.Visibility = Visibility.Collapsed;
-                btnMenuAI.Visibility = Visibility.Collapsed;
             }
 
             // Hiển thị màn hình Dashboard đầu tiên
@@ -111,12 +119,6 @@ namespace doan
             ShowUserControl(new UC_ThongKe());
         }
 
-        private void btnMenuAI_Checked(object sender, RoutedEventArgs e)
-        {
-            if (lblCurrentViewTitle == null) return;
-            lblCurrentViewTitle.Text = "Trợ Lý Phân Tích & Tối Ưu Doanh Thu";
-            ShowUserControl(new UC_PhanTichAI());
-        }
 
         #endregion
 

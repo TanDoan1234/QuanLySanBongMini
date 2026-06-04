@@ -23,24 +23,33 @@ namespace doan.Views.UserControls
             {
                 using (var context = new QLSanBongDbContext())
                 {
-                    // Lấy top khách hàng thân thiết, bỏ qua khách vãng lai (MaKhachHang = 3)
+                    // Lấy tất cả hóa đơn đã thanh toán về RAM để tính tổng
+                    var invoices = context.HoaDonThanhToans
+                        .Include(h => h.PhieuDatSan)
+                        .Where(h => h.TrangThai == "Đã thanh toán" && h.PhieuDatSan != null)
+                        .Select(h => new { h.PhieuDatSan!.MaKhachHang, h.TongTien })
+                        .ToList();
+
+                    // Lấy danh sách các phiếu đặt sân đã thanh toán để đếm số trận
+                    var bookings = context.PhieuDatSans
+                        .Where(p => p.TrangThai == "Đã thanh toán")
+                        .Select(p => new { p.MaKhachHang })
+                        .ToList();
+
                     var vipList = context.KhachHangs
                         .Where(k => k.MaKhachHang != 3)
+                        .ToList()
                         .Select(k => new
                         {
                             TenKhachHang = k.TenKhachHang,
                             SoDienThoai = k.SoDienThoai,
-                            // Đếm số phiếu đặt đã thanh toán thành công
-                            SoTranDa = context.PhieuDatSans.Count(p => p.MaKhachHang == k.MaKhachHang && p.TrangThai == "Đã thanh toán"),
-                            // Tổng tiền đã thanh toán từ hóa đơn
-                            TongTien = context.HoaDonThanhToans
-                                .Where(h => h.PhieuDatSan!.MaKhachHang == k.MaKhachHang && h.TrangThai == "Đã thanh toán")
-                                .Sum(h => (decimal?)h.TongTien) ?? 0
+                            SoTranDa = bookings.Count(p => p.MaKhachHang == k.MaKhachHang),
+                            TongTien = invoices.Where(h => h.MaKhachHang == k.MaKhachHang).Sum(h => h.TongTien)
                         })
                         .Where(x => x.SoTranDa > 0)
                         .OrderByDescending(x => x.SoTranDa)
                         .ThenByDescending(x => x.TongTien)
-                        .Take(10) // Lấy top 10 khách hàng thân thiết nhất
+                        .Take(10)
                         .ToList();
 
                     dgVipCustomers.ItemsSource = vipList;

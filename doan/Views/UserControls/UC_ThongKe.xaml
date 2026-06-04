@@ -5,8 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:doan.Views.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="1000" Background="#F8FAFC">
-    <Grid Margin="15">
+             d:DesignHeight="700" d:DesignWidth="1000" Background="#F1F5F9">
+    <UserControl.Resources>
+        <!-- Style hiện đại cho TabItem (phẳng, gạch chân khi được chọn) -->
+        <Style TargetType="TabItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="border" Background="Transparent" BorderThickness="0,0,0,3" BorderBrush="Transparent" Padding="20,10" SnapsToDevicePixels="True" Cursor="Hand">
+                            <ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="#1E4E79"/>
+                                <Setter Property="TextBlock.Foreground" Value="#1E4E79"/>
+                                <Setter Property="TextBlock.FontWeight" Value="Bold"/>
+                                <Setter Property="TextBlock.FontSize" Value="13.5"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="False">
+                                <Setter Property="TextBlock.Foreground" Value="#64748B"/>
+                                <Setter Property="TextBlock.FontWeight" Value="SemiBold"/>
+                                <Setter Property="TextBlock.FontSize" Value="13.5"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="TextBlock.Foreground" Value="#1E4E79"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <!-- Bộ lọc và Xuất báo cáo -->
             <RowDefinition Height="Auto"/>
@@ -17,7 +48,10 @@
         </Grid.RowDefinitions>
 
         <!-- BỘ LỌC KHOẢNG THỜI GIAN -->
-        <Border Grid.Row="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,0,15" Padding="15">
+        <Border Grid.Row="0" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Margin="0,0,0,15" Padding="15">
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="15" Color="#000000" Opacity="0.03" ShadowDepth="3" Direction="270"/>
+            </Border.Effect>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -26,12 +60,12 @@
 
                 <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="Từ ngày:" FontSize="13" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <DatePicker x:Name="dpFromDate" Width="150" Height="36" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <DatePicker x:Name="dpFromDate" Width="160" Height="36" VerticalAlignment="Center" Margin="0,0,20,0"/>
 
                     <TextBlock Text="Đến ngày:" FontSize="13" FontWeight="SemiBold" Foreground="#475569" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <DatePicker x:Name="dpToDate" Width="150" Height="36" VerticalAlignment="Center" Margin="0,0,20,0"/>
+                    <DatePicker x:Name="dpToDate" Width="160" Height="36" VerticalAlignment="Center" Margin="0,0,20,0"/>
 
-                    <Button Content="Thống Kê" Style="{StaticResource ModernButton}" Height="36" Padding="25,0" Click="btnFilter_Click"/>
+                    <Button Content="Thống Kê" Style="{StaticResource ModernButton}" Height="36" Padding="25,0" Click="btnFilter_Click" Background="#1E4E79"/>
                 </StackPanel>
 
                 <Button Grid.Column="1" Content="Xuất Báo Cáo Excel" Style="{StaticResource SecondaryButton}" Height="36" Padding="20,0" Click="btnExportExcel_Click"/>
@@ -51,7 +85,10 @@
             </Grid.ColumnDefinitions>
 
             <!-- Card 1: Tổng doanh thu -->
-            <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+            <Border Grid.Column="0" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="12" Color="#000000" Opacity="0.03" ShadowDepth="2" Direction="270"/>
+                </Border.Effect>
                 <StackPanel>
                     <TextBlock Text="TỔNG DOANH THU" FontSize="11" FontWeight="Bold" Foreground="#64748B" Margin="0,0,0,8"/>
                     <TextBlock x:Name="lblTotalRevenue" Text="0 VNĐ" FontSize="20" FontWeight="Bold" Foreground="#10B981"/>
@@ -59,15 +96,21 @@
             </Border>
 
             <!-- Card 2: Tiền sân -->
-            <Border Grid.Column="2" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+            <Border Grid.Column="2" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="12" Color="#000000" Opacity="0.03" ShadowDepth="2" Direction="270"/>
+                </Border.Effect>
                 <StackPanel>
                     <TextBlock Text="DOANH THU THUÊ SÂN" FontSize="11" FontWeight="Bold" Foreground="#64748B" Margin="0,0,0,8"/>
-                    <TextBlock x:Name="lblPitchRevenue" Text="0 VNĐ" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}"/>
+                    <TextBlock x:Name="lblPitchRevenue" Text="0 VNĐ" FontSize="20" FontWeight="Bold" Foreground="#1E4E79"/>
                 </StackPanel>
             </Border>
 
             <!-- Card 3: Tiền dịch vụ -->
-            <Border Grid.Column="4" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+            <Border Grid.Column="4" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="12" Color="#000000" Opacity="0.03" ShadowDepth="2" Direction="270"/>
+                </Border.Effect>
                 <StackPanel>
                     <TextBlock Text="DOANH THU DỊCH VỤ" FontSize="11" FontWeight="Bold" Foreground="#64748B" Margin="0,0,0,8"/>
                     <TextBlock x:Name="lblServiceRevenue" Text="0 VNĐ" FontSize="20" FontWeight="Bold" Foreground="#6366F1"/>
@@ -75,7 +118,10 @@
             </Border>
 
             <!-- Card 4: Tổng lượt đặt -->
-            <Border Grid.Column="6" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+            <Border Grid.Column="6" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="12" Color="#000000" Opacity="0.03" ShadowDepth="2" Direction="270"/>
+                </Border.Effect>
                 <StackPanel>
                     <TextBlock Text="TỔNG LƯỢT ĐẶT SÂN" FontSize="11" FontWeight="Bold" Foreground="#64748B" Margin="0,0,0,8"/>
                     <TextBlock x:Name="lblTotalBookings" Text="0 lượt" FontSize="20" FontWeight="Bold" Foreground="#F59E0B"/>
@@ -86,8 +132,11 @@
         <!-- KHU VỰC DỮ LIỆU TAB TIỆN ÍCH -->
         <TabControl Grid.Row="2" Background="Transparent" BorderThickness="0" Padding="0">
             <!-- Tab 1: Danh sách hóa đơn chi tiết -->
-            <TabItem Header="Danh Sách Hóa Đơn Chi Tiết" Padding="15,8">
-                <Border CornerRadius="0,0,12,12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+            <TabItem Header="Danh Sách Hóa Đơn Chi Tiết">
+                <Border CornerRadius="0,0,16,16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="20">
+                    <Border.Effect>
+                        <DropShadowEffect BlurRadius="15" Color="#000000" Opacity="0.03" ShadowDepth="3" Direction="270"/>
+                    </Border.Effect>
                     <Grid>
                         <DataGrid x:Name="dgInvoices" Style="{StaticResource ModernDataGrid}">
                             <DataGrid.Columns>
@@ -111,9 +160,9 @@
                 </Border>
             </TabItem>
 
-            <!-- Tab 2: Thống kê nâng cao (Gom nhóm - Yêu cầu STT 10) -->
-            <TabItem Header="Báo Cáo Phân Tích &amp; Gom Nhóm" Padding="15,8">
-                <Grid Margin="0,10,0,0">
+            <!-- Tab 2: Thống kê nâng cao -->
+            <TabItem Header="Báo Cáo Phân Tích &amp; Gom Nhóm">
+                <Grid Margin="0,15,0,0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="15"/>
@@ -121,16 +170,20 @@
                     </Grid.ColumnDefinitions>
 
                     <!-- Cột trái: Gom nhóm theo Sân bóng -->
-                    <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                    <Border Grid.Column="0" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="20">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" Color="#000000" Opacity="0.03" ShadowDepth="3" Direction="270"/>
+                        </Border.Effect>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             
-                            <StackPanel Grid.Row="0" Margin="0,0,0,12">
-                                <TextBlock Text="Doanh Thu Theo Sân Bóng" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
-                                <TextBlock Text="Gom nhóm tổng hợp lượt đá và doanh thu từng sân" FontSize="11" Foreground="#64748B"/>
+                            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                                <TextBlock Text="Doanh Thu Theo Sân Bóng" FontSize="14.5" FontWeight="Bold" Foreground="#1E4E79" Margin="0,0,0,4"/>
+                                <TextBlock Text="Gom nhóm tổng hợp lượt đá và doanh thu từng sân" FontSize="11.5" Foreground="#64748B"/>
+                                <Separator Height="1" Background="#E2E8F0" Margin="0,12,0,0"/>
                             </StackPanel>
 
                             <DataGrid x:Name="dgGroupedPitches" Grid.Row="1" Style="{StaticResource ModernDataGrid}">
@@ -144,16 +197,20 @@
                     </Border>
 
                     <!-- Cột phải: Gom nhóm theo Sản phẩm / Dịch vụ bán chạy -->
-                    <Border Grid.Column="2" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                    <Border Grid.Column="2" CornerRadius="16" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="20">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" Color="#000000" Opacity="0.03" ShadowDepth="3" Direction="270"/>
+                        </Border.Effect>
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             
-                            <StackPanel Grid.Row="0" Margin="0,0,0,12">
-                                <TextBlock Text="Dịch Vụ &amp; Sản Phẩm Tiêu Thụ" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
-                                <TextBlock Text="Gom nhóm tổng hợp sản lượng sản phẩm dịch vụ đã bán" FontSize="11" Foreground="#64748B"/>
+                            <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                                <TextBlock Text="Dịch Vụ &amp; Sản Phẩm Tiêu Thụ" FontSize="14.5" FontWeight="Bold" Foreground="#1E4E79" Margin="0,0,0,4"/>
+                                <TextBlock Text="Gom nhóm tổng hợp sản lượng sản phẩm dịch vụ đã bán" FontSize="11.5" Foreground="#64748B"/>
+                                <Separator Height="1" Background="#E2E8F0" Margin="0,12,0,0"/>
                             </StackPanel>
 
                             <DataGrid x:Name="dgGroupedProducts" Grid.Row="1" Style="{StaticResource ModernDataGrid}">

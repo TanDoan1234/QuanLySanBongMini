@@ -5,9 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:doan"
         mc:Ignorable="d"
-        Title="PitchMaster - Phần Mềm Quản Lý Sân Bóng Đá Mini" Height="760" Width="1280"
-        WindowStartupLocation="CenterScreen" Background="#F8FAFC"
-        FontFamily="Segoe UI" Loaded="Window_Loaded">
+        Title="PitchMaster - Phần Mềm Quản Lý Sân Bóng Đá Mini" Height="780" Width="1300"
+        WindowStartupLocation="CenterScreen" Background="#F1F5F9"
+        FontFamily="Segoe UI" Loaded="Window_Loaded"
+        UseLayoutRounding="True"
+        SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display"
+        TextOptions.TextRenderingMode="ClearType">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -17,8 +21,8 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <!-- THANH SIDEBAR (CỘT 0) -->
-        <Border Grid.Column="0" Background="{StaticResource PrimaryDarkBrush}">
+        <!-- THANH SIDEBAR (CỘT 0) - Nền trắng với viền phải mỏng -->
+        <Border Grid.Column="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,0,1,0">
             <Grid Margin="0,20">
                 <Grid.RowDefinitions>
                     <!-- Logo / Brand -->
@@ -29,61 +33,92 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <!-- Brand Logo -->
-                <StackPanel Grid.Row="0" Margin="20,0,20,25">
-                    <TextBlock Text="PITCH MASTER" FontSize="20" FontWeight="Bold" Foreground="White"/>
-                    <TextBlock Text="Football Pitch Management" FontSize="11" Foreground="#94A3B8" Margin="0,3,0,0"/>
-                    <Separator Height="1" Background="#334155" Margin="0,15,0,0"/>
+                <!-- Brand Logo màu Navy -->
+                <StackPanel Grid.Row="0" Margin="22,5,22,25">
+                    <StackPanel Orientation="Horizontal">
+                        <Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A1.5,1.5 0 0,1 13.5,5.5A1.5,1.5 0 0,1 12,7A1.5,1.5 0 0,1 10.5,5.5A1.5,1.5 0 0,1 12,4" 
+                              Fill="#1E4E79" Width="22" Height="22" Stretch="Uniform" VerticalAlignment="Center"/>
+                        <TextBlock Text="PITCH MASTER" FontSize="18" FontWeight="Bold" Foreground="#1E4E79" Margin="8,0,0,0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock Text="Football Pitch Management" FontSize="10.5" Foreground="#64748B" Margin="30,3,0,0"/>
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,15,0,0"/>
                 </StackPanel>
 
-                <!-- Menu các chức năng điều hướng -->
-                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                <!-- Menu các chức năng điều hướng kèm Icon Vector -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Style="{StaticResource ModernScrollViewer}">
                     <StackPanel x:Name="panelMenu" Margin="10,0">
                         <!-- Menu Sơ đồ sân (Mặc định) -->
-                        <RadioButton x:Name="btnMenuDashboard" Style="{StaticResource MenuButton}" Content="Sơ Đồ Sân Bóng" IsChecked="True" Checked="btnMenuDashboard_Checked"/>
+                        <RadioButton x:Name="btnMenuDashboard" Style="{StaticResource MenuButton}" IsChecked="True" Checked="btnMenuDashboard_Checked">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Width="16" Height="16" Stretch="Uniform" Margin="5,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Sơ Đồ Sân Bóng" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
 
                         <!-- Menu Khách hàng -->
-                        <RadioButton x:Name="btnMenuKhachHang" Style="{StaticResource MenuButton}" Content="Quản Lý Khách Hàng" Checked="btnMenuKhachHang_Checked"/>
+                        <RadioButton x:Name="btnMenuKhachHang" Style="{StaticResource MenuButton}" Checked="btnMenuKhachHang_Checked">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Width="16" Height="16" Stretch="Uniform" Margin="5,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Quản Lý Khách Hàng" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
 
                         <!-- Menu Nhập hàng hóa -->
-                        <RadioButton x:Name="btnMenuNhapHang" Style="{StaticResource MenuButton}" Content="Nhập Kho Hàng Hóa" Checked="btnMenuNhapHang_Checked"/>
+                        <RadioButton x:Name="btnMenuNhapHang" Style="{StaticResource MenuButton}" Checked="btnMenuNhapHang_Checked">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M12,3L2,7.5V16.5L12,21L22,16.5V7.5L12,3M12,5.3L19.8,8.8L12,12.3L4.2,8.8L12,5.3M4,10.4L11,13.5V18.8L4,15.7V10.4M20,10.4V15.7L13,18.8V13.5L20,10.4Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Width="16" Height="16" Stretch="Uniform" Margin="5,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Nhập Kho Hàng Hóa" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
 
                         <!-- Menu Quản lý Sân bóng (Chỉ Admin) -->
-                        <RadioButton x:Name="btnMenuSanBong" Style="{StaticResource MenuButton}" Content="Cấu Hình Sân Bóng" Checked="btnMenuSanBong_Checked"/>
+                        <RadioButton x:Name="btnMenuSanBong" Style="{StaticResource MenuButton}" Checked="btnMenuSanBong_Checked">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A1.5,1.5 0 0,1 13.5,5.5A1.5,1.5 0 0,1 12,7A1.5,1.5 0 0,1 10.5,5.5A1.5,1.5 0 0,1 12,4" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Width="16" Height="16" Stretch="Uniform" Margin="5,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Cấu Hình Sân Bóng" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
 
                         <!-- Menu Quản lý Sản phẩm (Chỉ Admin) -->
-                        <RadioButton x:Name="btnMenuSanPham" Style="{StaticResource MenuButton}" Content="Danh Mục &amp; Sản Phẩm" Checked="btnMenuSanPham_Checked"/>
+                        <RadioButton x:Name="btnMenuSanPham" Style="{StaticResource MenuButton}" Checked="btnMenuSanPham_Checked">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M2,21H20V23H2V21M20,3H18V5H20V3M20,7H18V9H20V7M17,3H7V5H9V19H15V5H17V3M13,9H11V7H13V9Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Width="16" Height="16" Stretch="Uniform" Margin="5,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Danh Mục &amp; Sản Phẩm" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
 
                         <!-- Menu Báo cáo Thống kê (Chỉ Admin) -->
-                        <RadioButton x:Name="btnMenuThongKe" Style="{StaticResource MenuButton}" Content="Báo Cáo Doanh Thu" Checked="btnMenuThongKe_Checked"/>
-
-                        <!-- Menu Trợ lý AI (Chỉ Admin) -->
-                        <RadioButton x:Name="btnMenuAI" Style="{StaticResource MenuButton}" Content="Trợ Lý Tối Ưu (AI)" Checked="btnMenuAI_Checked"/>
+                        <RadioButton x:Name="btnMenuThongKe" Style="{StaticResource MenuButton}" Checked="btnMenuThongKe_Checked">
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M16,11.78L20.22,7.56L21.64,8.98L16,14.62L12,10.62L7.41,15.22L6,13.8L12,7.78L16,11.78Z" Fill="{Binding Path=Foreground, RelativeSource={RelativeSource AncestorType=RadioButton}}" Width="16" Height="16" Stretch="Uniform" Margin="5,0,12,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="Báo Cáo Doanh Thu" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </RadioButton>
                     </StackPanel>
                 </ScrollViewer>
 
                 <!-- Thông tin Tài khoản Đăng nhập & Đăng xuất -->
-                <StackPanel Grid.Row="2" Margin="20,15,20,0">
-                    <Separator Height="1" Background="#334155" Margin="0,0,0,15"/>
+                <StackPanel Grid.Row="2" Margin="20,15,20,5">
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,15"/>
                     
                     <!-- Info -->
-                    <Grid Margin="0,0,0,12">
+                    <Grid Margin="0,0,0,15">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <!-- Biểu tượng User tròn -->
-                        <Border Width="36" Height="36" CornerRadius="18" Background="#334155" VerticalAlignment="Center">
-                            <TextBlock Text="U" Foreground="White" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        <!-- Biểu tượng User tròn Navy -->
+                        <Border Width="38" Height="38" CornerRadius="19" Background="#1E4E79" VerticalAlignment="Center">
+                            <TextBlock Text="A" x:Name="lblLoggedUserInitials" Foreground="White" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Border>
-                        <StackPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
-                            <TextBlock x:Name="lblLoggedUserFullName" Text="Tên Người Dùng" FontSize="13" FontWeight="SemiBold" Foreground="White"/>
-                            <TextBlock x:Name="lblLoggedUserRole" Text="Quản trị viên" FontSize="11" Foreground="#94A3B8" Margin="0,1,0,0"/>
+                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock x:Name="lblLoggedUserFullName" Text="Tên Người Dùng" FontSize="13.5" FontWeight="Bold" Foreground="#1E4E79"/>
+                            <TextBlock x:Name="lblLoggedUserRole" Text="Quản trị viên" FontSize="11" Foreground="#64748B" Margin="0,1,0,0"/>
                         </StackPanel>
                     </Grid>
 
-                    <!-- Nút Đăng xuất -->
-                    <Button x:Name="btnLogout" Content="Đăng Xuất" Style="{StaticResource DangerButton}" Height="34" Click="btnLogout_Click"/>
+                    <!-- Nút Đăng xuất dạng Flat hiện đại -->
+                    <Button x:Name="btnLogout" Content="Đăng Xuất" Style="{StaticResource DangerButton}" Height="36" Click="btnLogout_Click" BorderThickness="0" FontWeight="SemiBold" FontSize="12.5"/>
                 </StackPanel>
             </Grid>
         </Border>
@@ -92,27 +127,29 @@
         <Grid Grid.Column="1">
             <Grid.RowDefinitions>
                 <!-- Header trên cùng -->
-                <RowDefinition Height="60"/>
+                <RowDefinition Height="65"/>
                 <!-- Vùng hiển thị UserControl động -->
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <!-- Top Header -->
+            <!-- Top Header với màu chữ Navy và nền Trắng sạch sẽ -->
             <Border Grid.Row="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1">
-                <Grid Margin="20,0">
+                <Grid Margin="25,0">
                     <!-- Tiêu đề UserControl hiện hành -->
-                    <TextBlock x:Name="lblCurrentViewTitle" Text="Sơ Đồ Trạng Thái Sân Bóng" FontSize="16" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="lblCurrentViewTitle" Text="Sơ Đồ Trạng Thái Sân Bóng" FontSize="18" FontWeight="Bold" Foreground="#1E4E79" VerticalAlignment="Center"/>
 
                     <!-- Đồng hồ thời gian thực -->
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-                        <TextBlock Text="Hệ thống trực tuyến" FontSize="12" Foreground="#10B981" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,15,0"/>
-                        <TextBlock x:Name="lblSystemClock" Text="05/06/2026 12:00:00" FontSize="13" Foreground="#64748B" VerticalAlignment="Center"/>
+                        <!-- Chấm nhỏ màu xanh lá chớp sáng -->
+                        <Ellipse Width="8" Height="8" Fill="#10B981" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="Trực tuyến" FontSize="12" Foreground="#10B981" FontWeight="Bold" VerticalAlignment="Center" Margin="0,0,18,0"/>
+                        <TextBlock x:Name="lblSystemClock" Text="05/06/2026 12:00:00" FontSize="13" Foreground="#64748B" VerticalAlignment="Center" FontWeight="Medium"/>
                     </StackPanel>
                 </Grid>
             </Border>
 
-            <!-- Vùng Render UserControl -->
-            <ContentControl x:Name="contentArea" Grid.Row="1" Focusable="False"/>
+            <!-- Vùng Render UserControl nền Ice Blue -->
+            <ContentControl x:Name="contentArea" Grid.Row="1" Focusable="False" Margin="15"/>
         </Grid>
     </Grid>
 </Window>

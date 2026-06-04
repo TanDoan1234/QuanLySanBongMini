@@ -1,0 +1,135 @@
+<Window x:Class="doan.Views.InvoicePrintWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:doan.Views"
+        mc:Ignorable="d"
+        Title="In Hóa Đơn Thanh Toán" Height="680" Width="480"
+        WindowStartupLocation="CenterOwner" Background="#F1F5F9"
+        FontFamily="Segoe UI">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
+        </Grid.RowDefinitions>
+
+        <!-- KHU VỰC TRÌNH BÀY HÓA ĐƠN (REPORT ĐƠN GIẢN) -->
+        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto" Background="#E2E8F0" Padding="20">
+            <!-- Border mô phỏng tờ hoá đơn giấy in nhiệt -->
+            <Border x:Name="printArea" Width="380" Background="White" Padding="25,30,25,30" CornerRadius="4" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="10" Color="Black" Opacity="0.1" ShadowDepth="2"/>
+                </Border.Effect>
+                
+                <StackPanel>
+                    <!-- Header -->
+                    <TextBlock Text="PITCH MASTER" FontSize="20" FontWeight="Bold" HorizontalAlignment="Center" Foreground="#0F172A"/>
+                    <TextBlock Text="Đường Lê Trọng Tấn, Tân Phú, TP. HCM" FontSize="11" HorizontalAlignment="Center" Foreground="#64748B" Margin="0,3,0,0"/>
+                    <TextBlock Text="Hotline: 0987.654.321" FontSize="11" HorizontalAlignment="Center" Foreground="#64748B"/>
+                    
+                    <TextBlock Text="HÓA ĐƠN THANH TOÁN" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,5" Foreground="#0F172A"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,15">
+                        <TextBlock Text="Mã HD: " FontSize="12" Foreground="#475569"/>
+                        <TextBlock x:Name="lblInvoiceId" Text="0001" FontSize="12" FontWeight="Bold" Foreground="#475569"/>
+                        <TextBlock Text="  |  Ngày: " FontSize="12" Foreground="#475569"/>
+                        <TextBlock x:Name="lblInvoiceDate" Text="05/06/2026 12:00" FontSize="12" Foreground="#475569"/>
+                    </StackPanel>
+
+                    <Separator Height="1" Background="#CBD5E1" Margin="0,5,0,15"/>
+
+                    <!-- Thông tin khách hàng & đặt sân -->
+                    <Grid Margin="0,0,0,6">
+                        <TextBlock Text="Khách hàng:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblCustomerName" Text="Nguyễn Văn A" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,6">
+                        <TextBlock Text="Số điện thoại:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblCustomerPhone" Text="0909123456" FontSize="12" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,6">
+                        <TextBlock Text="Sân thuê:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblPitchName" Text="Sân 5A (Sân 5)" FontSize="12" FontWeight="SemiBold" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,15">
+                        <TextBlock Text="Khung giờ đá:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblTimeSlot" Text="17:30 ‒ 19:00" FontSize="12" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+
+                    <Separator Height="1" Background="#CBD5E1" Margin="0,5,0,15"/>
+
+                    <!-- Nội dung bảng chi tiết (Yêu cầu STT 9) -->
+                    <TextBlock Text="CHI TIẾT DỊCH VỤ &amp; GIỜ SÂN" FontSize="12" FontWeight="Bold" Foreground="#475569" Margin="0,0,0,10"/>
+                    
+                    <!-- Bảng Grid các dòng chi tiết -->
+                    <Grid x:Name="gridBillItems">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <!-- Các dòng chi tiết sẽ được sinh động bằng code phía sau -->
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="90"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Tiêu đề cột -->
+                        <TextBlock Grid.Column="0" Text="Mặt hàng / Giờ sân" FontSize="11" FontWeight="Bold" Foreground="#64748B"/>
+                        <TextBlock Grid.Column="1" Text="SL" FontSize="11" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Center"/>
+                        <TextBlock Grid.Column="2" Text="Đơn giá" FontSize="11" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Right"/>
+                        <TextBlock Grid.Column="3" Text="Thành tiền" FontSize="11" FontWeight="Bold" Foreground="#64748B" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <StackPanel x:Name="panelBillRows" Margin="0,8,0,0">
+                        <!-- Code-behind sẽ chèn các dòng chi tiết vào đây -->
+                    </StackPanel>
+
+                    <Separator Height="1" Background="#CBD5E1" Margin="0,15,0,15"/>
+
+                    <!-- Tổng kết tính toán -->
+                    <Grid Margin="0,0,0,5">
+                        <TextBlock Text="Tiền thuê sân:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblTienSan" Text="225,000 đ" FontSize="12" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,5">
+                        <TextBlock Text="Tiền dịch vụ dùng:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblTienDichVu" Text="45,000 đ" FontSize="12" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,5">
+                        <TextBlock Text="Phụ thu thêm:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblPhuThu" Text="0 đ" FontSize="12" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,10">
+                        <TextBlock Text="Giảm giá áp dụng:" FontSize="12" Foreground="#64748B"/>
+                        <TextBlock x:Name="lblGiamGia" Text="0 đ" FontSize="12" HorizontalAlignment="Right" Foreground="#EF4444"/>
+                    </Grid>
+
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,5,0,10"/>
+
+                    <Grid Margin="0,0,0,25">
+                        <TextBlock Text="TỔNG CỘNG:" FontSize="14" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="lblTongTien" Text="270,000 đ" FontSize="20" FontWeight="Bold" Foreground="#10B981" HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <!-- Footer -->
+                    <TextBlock Text="Cảm ơn quý khách đã chọn PITCH MASTER!" FontSize="12" FontStyle="Italic" HorizontalAlignment="Center" Foreground="#475569"/>
+                    <TextBlock Text="Hẹn gặp lại trong những trận cầu tiếp theo!" FontSize="11" FontStyle="Italic" HorizontalAlignment="Center" Foreground="#64748B" Margin="0,3,0,0"/>
+                </StackPanel>
+            </Border>
+        </ScrollViewer>
+
+        <!-- THANH ĐIỀU KHIỂN NÚT IN (GRID 1) -->
+        <Border Grid.Row="1" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,1,0,0">
+            <Grid Margin="15,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Content="Đóng" Style="{StaticResource SecondaryButton}" Height="36" Margin="0,0,5,0" Click="btnCancel_Click"/>
+                <Button Content="In Hóa Đơn (PDF/Printer)" Style="{StaticResource ModernButton}" Height="36" Grid.Column="1" Margin="5,0,0,0" Click="btnPrint_Click"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

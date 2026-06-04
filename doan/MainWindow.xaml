@@ -1,0 +1,118 @@
+<Window x:Class="doan.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:doan"
+        mc:Ignorable="d"
+        Title="PitchMaster - Phần Mềm Quản Lý Sân Bóng Đá Mini" Height="760" Width="1280"
+        WindowStartupLocation="CenterScreen" Background="#F8FAFC"
+        FontFamily="Segoe UI" Loaded="Window_Loaded">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <!-- Sidebar điều hướng bên trái -->
+            <ColumnDefinition Width="260"/>
+            <!-- Vùng hiển thị UserControl bên phải -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- THANH SIDEBAR (CỘT 0) -->
+        <Border Grid.Column="0" Background="{StaticResource PrimaryDarkBrush}">
+            <Grid Margin="0,20">
+                <Grid.RowDefinitions>
+                    <!-- Logo / Brand -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Menu điều hướng -->
+                    <RowDefinition Height="*"/>
+                    <!-- User Info & Đăng xuất -->
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Brand Logo -->
+                <StackPanel Grid.Row="0" Margin="20,0,20,25">
+                    <TextBlock Text="PITCH MASTER" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                    <TextBlock Text="Football Pitch Management" FontSize="11" Foreground="#94A3B8" Margin="0,3,0,0"/>
+                    <Separator Height="1" Background="#334155" Margin="0,15,0,0"/>
+                </StackPanel>
+
+                <!-- Menu các chức năng điều hướng -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel x:Name="panelMenu" Margin="10,0">
+                        <!-- Menu Sơ đồ sân (Mặc định) -->
+                        <RadioButton x:Name="btnMenuDashboard" Style="{StaticResource MenuButton}" Content="Sơ Đồ Sân Bóng" IsChecked="True" Checked="btnMenuDashboard_Checked"/>
+
+                        <!-- Menu Khách hàng -->
+                        <RadioButton x:Name="btnMenuKhachHang" Style="{StaticResource MenuButton}" Content="Quản Lý Khách Hàng" Checked="btnMenuKhachHang_Checked"/>
+
+                        <!-- Menu Nhập hàng hóa -->
+                        <RadioButton x:Name="btnMenuNhapHang" Style="{StaticResource MenuButton}" Content="Nhập Kho Hàng Hóa" Checked="btnMenuNhapHang_Checked"/>
+
+                        <!-- Menu Quản lý Sân bóng (Chỉ Admin) -->
+                        <RadioButton x:Name="btnMenuSanBong" Style="{StaticResource MenuButton}" Content="Cấu Hình Sân Bóng" Checked="btnMenuSanBong_Checked"/>
+
+                        <!-- Menu Quản lý Sản phẩm (Chỉ Admin) -->
+                        <RadioButton x:Name="btnMenuSanPham" Style="{StaticResource MenuButton}" Content="Danh Mục &amp; Sản Phẩm" Checked="btnMenuSanPham_Checked"/>
+
+                        <!-- Menu Báo cáo Thống kê (Chỉ Admin) -->
+                        <RadioButton x:Name="btnMenuThongKe" Style="{StaticResource MenuButton}" Content="Báo Cáo Doanh Thu" Checked="btnMenuThongKe_Checked"/>
+
+                        <!-- Menu Trợ lý AI (Chỉ Admin) -->
+                        <RadioButton x:Name="btnMenuAI" Style="{StaticResource MenuButton}" Content="Trợ Lý Tối Ưu (AI)" Checked="btnMenuAI_Checked"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Thông tin Tài khoản Đăng nhập & Đăng xuất -->
+                <StackPanel Grid.Row="2" Margin="20,15,20,0">
+                    <Separator Height="1" Background="#334155" Margin="0,0,0,15"/>
+                    
+                    <!-- Info -->
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <!-- Biểu tượng User tròn -->
+                        <Border Width="36" Height="36" CornerRadius="18" Background="#334155" VerticalAlignment="Center">
+                            <TextBlock Text="U" Foreground="White" FontWeight="Bold" FontSize="14" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock x:Name="lblLoggedUserFullName" Text="Tên Người Dùng" FontSize="13" FontWeight="SemiBold" Foreground="White"/>
+                            <TextBlock x:Name="lblLoggedUserRole" Text="Quản trị viên" FontSize="11" Foreground="#94A3B8" Margin="0,1,0,0"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Nút Đăng xuất -->
+                    <Button x:Name="btnLogout" Content="Đăng Xuất" Style="{StaticResource DangerButton}" Height="34" Click="btnLogout_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- KHOANG HIỂN THỊ CHÍNH (CỘT 1) -->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <!-- Header trên cùng -->
+                <RowDefinition Height="60"/>
+                <!-- Vùng hiển thị UserControl động -->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Top Header -->
+            <Border Grid.Row="0" Background="White" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1">
+                <Grid Margin="20,0">
+                    <!-- Tiêu đề UserControl hiện hành -->
+                    <TextBlock x:Name="lblCurrentViewTitle" Text="Sơ Đồ Trạng Thái Sân Bóng" FontSize="16" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+
+                    <!-- Đồng hồ thời gian thực -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                        <TextBlock Text="Hệ thống trực tuyến" FontSize="12" Foreground="#10B981" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,15,0"/>
+                        <TextBlock x:Name="lblSystemClock" Text="05/06/2026 12:00:00" FontSize="13" Foreground="#64748B" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- Vùng Render UserControl -->
+            <ContentControl x:Name="contentArea" Grid.Row="1" Focusable="False"/>
+        </Grid>
+    </Grid>
+</Window>

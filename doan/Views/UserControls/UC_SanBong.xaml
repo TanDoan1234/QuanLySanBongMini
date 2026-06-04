@@ -1,0 +1,116 @@
+<UserControl x:Class="doan.Views.UserControls.UC_SanBong"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:doan.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900" Background="#F8FAFC">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <!-- Bên trái: Danh sách sân bóng -->
+            <ColumnDefinition Width="*"/>
+            <!-- Khoảng cách -->
+            <ColumnDefinition Width="15"/>
+            <!-- Bên phải: Form thông tin -->
+            <ColumnDefinition Width="360"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- BẢNG DANH SÁCH SÂN BÔNG -->
+        <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="Danh Sách Sân Bóng" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                    <TextBlock Text="Danh sách các sân bóng 5 người, 7 người và 11 người trong hệ thống" FontSize="12" Foreground="#64748B"/>
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <DataGrid x:Name="dgPitches" Grid.Row="1" Style="{StaticResource ModernDataGrid}" SelectionChanged="dgPitches_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã" Binding="{Binding MaSan}" Width="60"/>
+                        <DataGridTextColumn Header="Tên sân" Binding="{Binding TenSan}" Width="*"/>
+                        <DataGridTextColumn Header="Loại sân" Binding="{Binding LoaiSan}" Width="120"/>
+                        <DataGridTextColumn Header="Đơn giá / Giờ" Binding="{Binding DonGiaTheoGio, StringFormat={}{0:#,##0} VNĐ}" Width="150"/>
+                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding TrangThai}" Width="120">
+                            <DataGridTextColumn.ElementStyle>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="SemiBold"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="Text" Value="Trống">
+                                            <Setter Property="Foreground" Value="#10B981"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="Đang đá">
+                                            <Setter Property="Foreground" Value="#EF4444"/>
+                                        </Trigger>
+                                        <Trigger Property="Text" Value="Bảo trì">
+                                            <Setter Property="Foreground" Value="#F59E0B"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.ElementStyle>
+                        </DataGridTextColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- FORM THÔNG TIN SÂN BÔNG (BÊN PHẢI) -->
+        <Border Grid.Column="2" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="Chi Tiết Sân Bóng" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                    <TextBlock Text="Thêm mới hoặc cập nhật thông tin sân bóng" FontSize="12" Foreground="#64748B"/>
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <!-- Trường nhập liệu -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="0,5">
+                        <!-- Tên sân -->
+                        <TextBlock Text="Tên sân bóng *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtPitchName" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+
+                        <!-- Loại sân -->
+                        <TextBlock Text="Loại sân *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cboPitchType" Style="{StaticResource ModernComboBox}" Height="36" Margin="0,0,0,15">
+                            <ComboBoxItem Content="Sân 5"/>
+                            <ComboBoxItem Content="Sân 7"/>
+                            <ComboBoxItem Content="Sân 11"/>
+                        </ComboBox>
+
+                        <!-- Đơn giá theo giờ -->
+                        <TextBlock Text="Đơn giá / Giờ (VNĐ) *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtPitchPrice" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+
+                        <!-- Trạng thái -->
+                        <TextBlock Text="Trạng thái *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                        <ComboBox x:Name="cboPitchStatus" Style="{StaticResource ModernComboBox}" Height="36" Margin="0,0,0,15">
+                            <ComboBoxItem Content="Trống"/>
+                            <ComboBoxItem Content="Đang đá"/>
+                            <ComboBoxItem Content="Bảo trì"/>
+                        </ComboBox>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Các nút hành động -->
+                <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,15"/>
+                    <Button x:Name="btnNewPitch" Content="Làm Mới Form" Style="{StaticResource SecondaryButton}" Height="38" Margin="0,0,0,10" Click="btnNewPitch_Click"/>
+                    <Button x:Name="btnSavePitch" Content="Lưu Sân Bóng" Style="{StaticResource ModernButton}" Height="38" Margin="0,0,0,10" Click="btnSavePitch_Click"/>
+                    <Button x:Name="btnDeletePitch" Content="Xóa Sân Bóng" Style="{StaticResource DangerButton}" Height="38" Click="btnDeletePitch_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

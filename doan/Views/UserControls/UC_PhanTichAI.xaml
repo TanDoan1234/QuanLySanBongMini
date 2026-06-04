@@ -1,0 +1,186 @@
+<UserControl x:Class="doan.Views.UserControls.UC_PhanTichAI"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:doan.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1000" Background="#F8FAFC">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <!-- Tiêu đề trang -->
+            <RowDefinition Height="Auto"/>
+            <!-- Hai cột chính: Phân tích thói quen và Đề xuất/Khách hàng VIP -->
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,15">
+            <TextBlock Text="Trợ Lý Phân Tích &amp; Tối Ưu Doanh Thu" FontSize="20" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+            <TextBlock Text="Phân tích lịch sử đặt sân để đề xuất khung giờ vàng và tri ân khách hàng thân thiết" FontSize="12" Foreground="#64748B"/>
+            <Separator Height="1" Background="#E2E8F0" Margin="0,10,0,0"/>
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <!-- Phân tích thống kê thói quen -->
+                <ColumnDefinition Width="*"/>
+                <!-- Khoảng cách -->
+                <ColumnDefinition Width="15"/>
+                <!-- Gợi ý thông minh & Khách VIP -->
+                <ColumnDefinition Width="420"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- BẢNG PHÂN TÍCH HIỆU SUẤT ĐẶT SÂN THEO NGÀY TRONG TUẦN -->
+            <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                        <TextBlock Text="Hiệu Suất Lấp Đầy Sân Bóng" FontSize="16" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                        <TextBlock Text="Phân tích tần suất khách thuê sân theo các ngày trong tuần" FontSize="11" Foreground="#64748B"/>
+                    </StackPanel>
+
+                    <!-- Danh sách các ngày trong tuần và thanh tiến trình biểu đồ -->
+                    <StackPanel Grid.Row="1" Margin="0,0,0,20">
+                        <!-- Thứ 2 -->
+                        <TextBlock Text="Thứ Hai" FontSize="12" FontWeight="SemiBold" Foreground="#475569"/>
+                        <Grid Margin="0,4,0,12">
+                            <ProgressBar x:Name="pbMonday" Height="10" Value="45" Maximum="100" Foreground="{StaticResource PrimaryBrush}" Background="#F1F5F9"/>
+                            <TextBlock x:Name="lblMondayVal" Text="45%" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#475569"/>
+                        </Grid>
+
+                        <!-- Thứ 3 -->
+                        <TextBlock Text="Thứ Ba" FontSize="12" FontWeight="SemiBold" Foreground="#475569"/>
+                        <Grid Margin="0,4,0,12">
+                            <ProgressBar x:Name="pbTuesday" Height="10" Value="50" Maximum="100" Foreground="{StaticResource PrimaryBrush}" Background="#F1F5F9"/>
+                            <TextBlock x:Name="lblTuesdayVal" Text="50%" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#475569"/>
+                        </Grid>
+
+                        <!-- Thứ 4 -->
+                        <TextBlock Text="Thứ Tư" FontSize="12" FontWeight="SemiBold" Foreground="#475569"/>
+                        <Grid Margin="0,4,0,12">
+                            <ProgressBar x:Name="pbWednesday" Height="10" Value="55" Maximum="100" Foreground="{StaticResource PrimaryBrush}" Background="#F1F5F9"/>
+                            <TextBlock x:Name="lblWednesdayVal" Text="55%" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#475569"/>
+                        </Grid>
+
+                        <!-- Thứ 5 -->
+                        <TextBlock Text="Thứ Năm" FontSize="12" FontWeight="SemiBold" Foreground="#475569"/>
+                        <Grid Margin="0,4,0,12">
+                            <ProgressBar x:Name="pbThursday" Height="10" Value="48" Maximum="100" Foreground="{StaticResource PrimaryBrush}" Background="#F1F5F9"/>
+                            <TextBlock x:Name="lblThursdayVal" Text="48%" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#475569"/>
+                        </Grid>
+
+                        <!-- Thứ 6 -->
+                        <TextBlock Text="Thứ Sáu" FontSize="12" FontWeight="SemiBold" Foreground="#475569"/>
+                        <Grid Margin="0,4,0,12">
+                            <ProgressBar x:Name="pbFriday" Height="10" Value="75" Maximum="100" Foreground="#6366F1" Background="#F1F5F9"/>
+                            <TextBlock x:Name="lblFridayVal" Text="75%" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#475569"/>
+                        </Grid>
+
+                        <!-- Thứ 7 -->
+                        <TextBlock Text="Thứ Bảy" FontSize="12" FontWeight="SemiBold" Foreground="#475569"/>
+                        <Grid Margin="0,4,0,12">
+                            <ProgressBar x:Name="pbSaturday" Height="10" Value="95" Maximum="100" Foreground="#EF4444" Background="#F1F5F9"/>
+                            <TextBlock x:Name="lblSaturdayVal" Text="95%" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#475569"/>
+                        </Grid>
+
+                        <!-- Chủ Nhật -->
+                        <TextBlock Text="Chủ Nhật" FontSize="12" FontWeight="SemiBold" Foreground="#475569"/>
+                        <Grid Margin="0,4,0,12">
+                            <ProgressBar x:Name="pbSunday" Height="10" Value="90" Maximum="100" Foreground="#EF4444" Background="#F1F5F9"/>
+                            <TextBlock x:Name="lblSundayVal" Text="90%" FontSize="10" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,5,0" Foreground="#475569"/>
+                        </Grid>
+                    </StackPanel>
+
+                    <!-- Khung giờ phổ biến nhất -->
+                    <StackPanel Grid.Row="2">
+                        <TextBlock Text="Khung Giờ Đặt Sân Nhiều Nhất" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,8"/>
+                        <Border Background="#F1F5F9" CornerRadius="8" Padding="12">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Path Data="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z" 
+                                      Fill="#10B981" Stretch="Uniform" Width="36" Height="36" VerticalAlignment="Center"/>
+                                <StackPanel Grid.Column="1" Margin="12,0,0,0">
+                                    <TextBlock Text="Khung Giờ Vàng (Cao Điểm)" FontSize="12" FontWeight="Bold" Foreground="#1E293B"/>
+                                    <TextBlock Text="17:00 ‒ 21:00 hàng ngày là khung giờ có mật độ thuê sân cao nhất (chiếm trên 85% tổng số lượt đặt)." FontSize="11" Foreground="#475569" TextWrapping="Wrap" Margin="0,2,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!-- GỢI Ý CHIẾN LƯỢC DOANH THU & DANH SÁCH KHÁCH HÀNG VIP -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <!-- Đề xuất tối ưu -->
+                    <RowDefinition Height="Auto"/>
+                    <!-- Danh sách khách hàng VIP -->
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- ĐỀ XUẤT TỐI ƯU DOANH THU -->
+                <Border Grid.Row="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15" Margin="0,0,0,15">
+                    <StackPanel>
+                        <TextBlock Text="Đề Xuất Chương Trình Kích Cầu" FontSize="16" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,10"/>
+                        
+                        <!-- Đề xuất 1 -->
+                        <BulletDecorator Margin="0,0,0,8">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Width="6" Height="6" Fill="#10B981" Margin="0,5,8,0"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Text="Khung giờ 08:00 - 15:00 từ Thứ 2 - Thứ 6 có hiệu suất thuê thấp dưới 30%. Đề xuất giảm giá giờ thuê 20% cho học sinh, sinh viên." FontSize="11.5" Foreground="#334155" TextWrapping="Wrap"/>
+                        </BulletDecorator>
+
+                        <!-- Đề xuất 2 -->
+                        <BulletDecorator Margin="0,0,0,8">
+                            <BulletDecorator.Bullet>
+                                <Ellipse Width="6" Height="6" Fill="#10B981" Margin="0,5,8,0"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Text="Cuối tuần (T7, CN) tỷ lệ lấp đầy sân lên tới 95%. Nên ưu tiên phục vụ và mở dịch vụ bán kèm các giải đấu nhỏ." FontSize="11.5" Foreground="#334155" TextWrapping="Wrap"/>
+                        </BulletDecorator>
+
+                        <!-- Đề xuất 3 -->
+                        <BulletDecorator>
+                            <BulletDecorator.Bullet>
+                                <Ellipse Width="6" Height="6" Fill="#10B981" Margin="0,5,8,0"/>
+                            </BulletDecorator.Bullet>
+                            <TextBlock Text="Tri ân danh sách Khách hàng VIP có số lượt đặt sân cao bằng Voucher miễn phí 1 thùng nước ngọt hoặc giảm giá giờ đá tiếp theo." FontSize="11.5" Foreground="#334155" TextWrapping="Wrap"/>
+                        </BulletDecorator>
+                    </StackPanel>
+                </Border>
+
+                <!-- BẢNG KHÁCH HÀNG THÂN THIẾT (VIP) -->
+                <Border Grid.Row="1" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1" Padding="15">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <StackPanel Grid.Row="0" Margin="0,0,0,12">
+                            <TextBlock Text="Danh Sách Khách Hàng VIP" FontSize="16" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                            <TextBlock Text="Top khách hàng thuê sân nhiều nhất và mang lại doanh thu lớn nhất" FontSize="11" Foreground="#64748B"/>
+                        </StackPanel>
+
+                        <DataGrid x:Name="dgVipCustomers" Grid.Row="1" Style="{StaticResource ModernDataGrid}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Khách hàng" Binding="{Binding TenKhachHang}" Width="*"/>
+                                <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="100"/>
+                                <DataGridTextColumn Header="Số trận" Binding="{Binding SoTranDa}" Width="65"/>
+                                <DataGridTextColumn Header="Tổng tiền" Binding="{Binding TongTien, StringFormat={}{0:#,##0} đ}" Width="110"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,329 @@
+<UserControl x:Class="doan.Views.UserControls.UC_Dashboard"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:doan.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="700" d:DesignWidth="1100" Background="#F8FAFC">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <!-- Bên trái: Sơ đồ các sân bóng -->
+            <ColumnDefinition Width="*"/>
+            <!-- Khoảng cách -->
+            <ColumnDefinition Width="15"/>
+            <!-- Bên phải: Bảng điều khiển chi tiết (Đặt sân / Dịch vụ / Thanh toán) -->
+            <ColumnDefinition Width="420"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- SƠ ĐỒ CÁC SÂN BÓNG (BÊN TRÁI) -->
+        <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Tiêu đề sơ đồ -->
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Trạng Thái Sân Bóng Hôm Nay" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                        <TextBlock Text="Chọn sân bóng để Đặt lịch, Thêm dịch vụ hoặc Thanh toán" FontSize="12" Foreground="#64748B"/>
+                    </StackPanel>
+
+                    <!-- Chú thích màu sắc -->
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="12" Height="12" CornerRadius="3" Background="#10B981" Margin="10,0,5,0"/>
+                        <TextBlock Text="Trống" FontSize="12" Foreground="#475569"/>
+
+                        <Border Width="12" Height="12" CornerRadius="3" Background="#EF4444" Margin="10,0,5,0"/>
+                        <TextBlock Text="Đang đá" FontSize="12" Foreground="#475569"/>
+
+                        <Border Width="12" Height="12" CornerRadius="3" Background="#F59E0B" Margin="10,0,5,0"/>
+                        <TextBlock Text="Bảo trì" FontSize="12" Foreground="#475569"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Lưới hiển thị các sân bóng -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="icPitches">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel Margin="0,5"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Width="180" Height="130" Margin="10" Click="btnPitch_Click" Style="{StaticResource ModernButton}">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="cardBorder" CornerRadius="12" BorderThickness="1.5" Cursor="Hand" SnapsToDevicePixels="True">
+                                                <Grid Margin="12">
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                        <RowDefinition Height="*"/>
+                                                        <RowDefinition Height="Auto"/>
+                                                    </Grid.RowDefinitions>
+
+                                                    <!-- Tên sân -->
+                                                    <TextBlock Grid.Row="0" Text="{Binding TenSan}" FontSize="18" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                                    
+                                                    <!-- Loại sân -->
+                                                    <TextBlock Grid.Row="1" Text="{Binding LoaiSan}" FontSize="12" Foreground="#F1F5F9" Margin="0,2,0,0"/>
+
+                                                    <!-- Giá sân -->
+                                                    <TextBlock Grid.Row="3" Text="{Binding DonGiaTheoGio, StringFormat={}{0:#,##0} đ/h}" FontSize="13" FontWeight="SemiBold" Foreground="White"/>
+                                                </Grid>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <!-- Đổi màu border và background theo trạng thái của Sân bóng -->
+                                                <DataTrigger Binding="{Binding TrangThai}" Value="Trống">
+                                                    <Setter TargetName="cardBorder" Property="Background" Value="#10B981"/>
+                                                    <Setter TargetName="cardBorder" Property="BorderBrush" Value="#059669"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding TrangThai}" Value="Đang đá">
+                                                    <Setter TargetName="cardBorder" Property="Background" Value="#EF4444"/>
+                                                    <Setter TargetName="cardBorder" Property="BorderBrush" Value="#DC2626"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding TrangThai}" Value="Bảo trì">
+                                                    <Setter TargetName="cardBorder" Property="Background" Value="#F59E0B"/>
+                                                    <Setter TargetName="cardBorder" Property="BorderBrush" Value="#D97706"/>
+                                                </DataTrigger>
+
+                                                <!-- Hiệu ứng Hover -->
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Opacity" Value="0.9"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </Border>
+
+        <!-- BẢNG ĐIỀU KHIỂN CHI TIẾT (BÊN PHẢI) -->
+        <Border Grid.Column="2" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Tiêu đề Panel chi tiết -->
+                <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                    <Grid>
+                        <TextBlock x:Name="lblSelectedPitchName" Text="Chưa chọn sân bóng" FontSize="18" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+                        <Border x:Name="borderSelectedPitchStatus" CornerRadius="10" Padding="8,3" Background="#94A3B8" HorizontalAlignment="Right">
+                            <TextBlock x:Name="lblSelectedPitchStatus" Text="CHƯA CHỌN" FontSize="10" FontWeight="Bold" Foreground="White"/>
+                        </Border>
+                    </Grid>
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <!-- KHU VỰC ĐIỀU KHIỂN ĐỘNG THEO TRẠNG THÁI SÂN -->
+                <Grid Grid.Row="1">
+                    <!-- 1. Trạng thái Chưa chọn sân -->
+                    <StackPanel x:Name="panelNoSelection" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20">
+                        <Path Data="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M11,6V14H19V12H13V6H11Z" 
+                              Fill="#CBD5E1" Stretch="Uniform" Width="64" Height="64" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Vui lòng chọn một sân bóng bên trái để thực hiện giao dịch." FontSize="14" Foreground="#64748B" HorizontalAlignment="Center" TextAlignment="Center" Margin="0,15,0,0" TextWrapping="Wrap"/>
+                    </StackPanel>
+
+                    <!-- 2. Trạng thái Sân Trống: FORM ĐẶT SÂN NHANH -->
+                    <Grid x:Name="gridBookingForm" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Margin="0,5">
+                                <TextBlock Text="ĐẶT LỊCH SÂN BÓNG" FontSize="14" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" Margin="0,0,0,15"/>
+
+                                <!-- Khách hàng -->
+                                <TextBlock Text="Số điện thoại khách hàng *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                                <Grid Margin="0,0,0,12">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="txtBookingPhone" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,5,0" KeyDown="txtBookingPhone_KeyDown"/>
+                                    <Button x:Name="btnSearchBookingCust" Content="Tìm" Style="{StaticResource SecondaryButton}" Height="36" Padding="12,0" Grid.Column="1" Click="btnSearchBookingCust_Click"/>
+                                </Grid>
+
+                                <TextBlock Text="Tên khách hàng *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                                <TextBox x:Name="txtBookingCustomerName" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+
+                                <!-- Lịch đặt -->
+                                <TextBlock Text="Ngày đá *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                                <DatePicker x:Name="dpBookingDate" Height="36" Margin="0,0,0,15"/>
+
+                                <Grid Margin="0,0,0,15">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="15"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <!-- Giờ bắt đầu -->
+                                    <StackPanel Grid.Column="0">
+                                        <TextBlock Text="Giờ bắt đầu *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                                        <TextBox x:Name="txtBookingStartTime" Style="{StaticResource ModernTextBox}" Height="36" Tag="hh:mm" ToolTip="Định dạng hh:mm, ví dụ 17:30"/>
+                                    </StackPanel>
+
+                                    <!-- Giờ kết thúc -->
+                                    <StackPanel Grid.Column="2">
+                                        <TextBlock Text="Giờ kết thúc *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                                        <TextBox x:Name="txtBookingEndTime" Style="{StaticResource ModernTextBox}" Height="36" Tag="hh:mm" ToolTip="Định dạng hh:mm, ví dụ 19:00"/>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </ScrollViewer>
+
+                        <StackPanel Grid.Row="1">
+                            <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,12"/>
+                            <!-- Cho phép đặt lịch trước hoặc nhận sân trực tiếp (Check-in ngay) -->
+                            <Button x:Name="btnCheckInNow" Content="NHẬN SÂN NGAY (ĐÁ LUÔN)" Style="{StaticResource SecondaryButton}" Height="38" Margin="0,0,0,8" Click="btnCheckInNow_Click"/>
+                            <Button x:Name="btnBookPitch" Content="ĐẶT LỊCH TRƯỚC" Style="{StaticResource ModernButton}" Height="40" Click="btnBookPitch_Click"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- 3. Trạng thái Đang đá: CHI TIẾT SỬ DỤNG DỊCH VỤ & THANH TOÁN -->
+                    <Grid x:Name="gridActiveBill" Visibility="Collapsed">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Thông tin giờ giấc -->
+                        <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                            <Grid Margin="0,0,0,5">
+                                <TextBlock Text="Khách hàng:" FontSize="13" FontWeight="SemiBold" Foreground="#475569"/>
+                                <TextBlock x:Name="lblBillCustomer" Text="Nguyễn Văn A" FontSize="13" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,5">
+                                <TextBlock Text="Giờ bắt đầu:" FontSize="13" Foreground="#64748B"/>
+                                <TextBlock x:Name="lblBillStartTime" Text="17:30" FontSize="13" Foreground="#0F172A" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,10">
+                                <TextBlock Text="Thời gian tạm tính:" FontSize="13" Foreground="#64748B"/>
+                                <TextBlock x:Name="lblBillDuration" Text="1.5 giờ (90 phút)" FontSize="13" Foreground="#0F172A" HorizontalAlignment="Right"/>
+                            </Grid>
+                            <Separator Height="1" Background="#E2E8F0"/>
+                        </StackPanel>
+
+                        <!-- Giỏ dịch vụ + Thêm dịch vụ -->
+                        <Grid Grid.Row="1" Margin="0,5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="SỬ DỤNG DỊCH VỤ / SẢN PHẨM" FontSize="12" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,5"/>
+
+                            <!-- Form thêm sản phẩm nhanh -->
+                            <Grid Grid.Row="1" Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="65"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox x:Name="cboAddProduct" Style="{StaticResource ModernComboBox}" DisplayMemberPath="TenSanPham" SelectedValuePath="MaSanPham" Height="36" Margin="0,0,5,0"/>
+                                <TextBox x:Name="txtAddProductQty" Style="{StaticResource ModernTextBox}" Height="36" Text="1" Margin="0,0,5,0" TextAlignment="Center"/>
+                                <Button Content="Thêm" Style="{StaticResource SecondaryButton}" Height="36" Padding="12,0" Grid.Column="2" Click="btnAddProduct_Click"/>
+                            </Grid>
+
+                            <!-- Bảng các dịch vụ đã gọi của sân -->
+                            <DataGrid x:Name="dgActiveServices" Grid.Row="2" Style="{StaticResource ModernDataGrid}">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Tên SP" Binding="{Binding TenSanPham}" Width="*"/>
+                                    <DataGridTextColumn Header="Số lượng" Binding="{Binding SoLuong}" Width="70"/>
+                                    <DataGridTextColumn Header="Thành tiền" Binding="{Binding ThanhTien, StringFormat={}{0:#,##0}}" Width="95"/>
+                                    <!-- Nút xóa dòng dịch vụ -->
+                                    <DataGridTemplateColumn Width="50">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="✕" Style="{StaticResource DangerButton}" FontSize="10" Padding="0" Height="22" Width="22" Click="btnRemoveService_Click"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Grid>
+
+                        <!-- Thông tin thanh toán & Thanh toán -->
+                        <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                            <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,10"/>
+                            
+                            <!-- Tiền sân -->
+                            <Grid Margin="0,0,0,5">
+                                <TextBlock Text="Tiền sân bóng:" FontSize="13" Foreground="#64748B"/>
+                                <TextBlock x:Name="lblBillPitchAmount" Text="225,000 VNĐ" FontSize="13" FontWeight="SemiBold" Foreground="#0F172A" HorizontalAlignment="Right"/>
+                            </Grid>
+
+                            <!-- Tiền dịch vụ -->
+                            <Grid Margin="0,0,0,5">
+                                <TextBlock Text="Tiền dịch vụ:" FontSize="13" Foreground="#64748B"/>
+                                <TextBlock x:Name="lblBillServiceAmount" Text="45,000 VNĐ" FontSize="13" FontWeight="SemiBold" Foreground="#0F172A" HorizontalAlignment="Right"/>
+                            </Grid>
+
+                            <!-- Giảm giá / Phụ thu -->
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0" Margin="0,0,5,0">
+                                    <TextBlock Text="Giảm giá (đ)" FontSize="11" Foreground="#64748B" Margin="0,0,0,3"/>
+                                    <TextBox x:Name="txtBillDiscount" Style="{StaticResource ModernTextBox}" Height="30" FontSize="12" Padding="5,2" Text="0" TextChanged="txtBillDiscount_TextChanged"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Margin="5,0,0,0">
+                                    <TextBlock Text="Phụ thu (đ)" FontSize="11" Foreground="#64748B" Margin="0,0,0,3"/>
+                                    <TextBox x:Name="txtBillSurcharge" Style="{StaticResource ModernTextBox}" Height="30" FontSize="12" Padding="5,2" Text="0" TextChanged="txtBillDiscount_TextChanged"/>
+                                </StackPanel>
+                            </Grid>
+
+                            <!-- Tổng tiền -->
+                            <Grid Margin="0,5,0,12">
+                                <TextBlock Text="TỔNG THANH TOÁN:" FontSize="14" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="lblBillTotalAmount" Text="270,000 VNĐ" FontSize="20" FontWeight="Bold" Foreground="{StaticResource PrimaryBrush}" HorizontalAlignment="Right"/>
+                            </Grid>
+
+                            <!-- Các nút -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Button x:Name="btnCancelBooking" Content="Hủy Sân" Style="{StaticResource DangerButton}" Height="40" Padding="15,0" Margin="0,0,8,0" Click="btnCancelBooking_Click"/>
+                                <Button x:Name="btnCheckout" Content="THANH TOÁN &amp; IN HÓA ĐƠN" Style="{StaticResource ModernButton}" Height="40" Grid.Column="1" Click="btnCheckout_Click"/>
+                            </Grid>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- 4. Trạng thái Bảo trì -->
+                    <StackPanel x:Name="panelMaintenance" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Visibility="Collapsed">
+                        <Path Data="M22.7,19L13.6,9.9C14.5,7.6 14,4.9 12.1,3C10.1,1 7.1,0.6 4.7,1.7L9,6L6,9L1.7,4.7C0.6,7.1 1,10.1 3,12.1C4.9,14 7.6,14.5 9.9,13.6L19,22.7C19.4,23.1 20,23.1 20.4,22.7L22.7,20.4C23.1,20 23.1,19.4 22.7,19Z" 
+                              Fill="#F59E0B" Stretch="Uniform" Width="64" Height="64" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Sân bóng đang trong quá trình bảo trì thiết bị." FontSize="14" Foreground="#64748B" HorizontalAlignment="Center" Margin="0,15,0,0"/>
+                        <Button x:Name="btnEndMaintenance" Content="Hoàn Thành Bảo Trì (Mở Sân)" Style="{StaticResource ModernButton}" Height="38" Margin="0,20,0,0" Click="btnEndMaintenance_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

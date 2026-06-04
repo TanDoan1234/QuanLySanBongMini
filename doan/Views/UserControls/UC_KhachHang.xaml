@@ -1,0 +1,102 @@
+<UserControl x:Class="doan.Views.UserControls.UC_KhachHang"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:doan.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="900" Background="#F8FAFC">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <!-- Bên trái: Danh sách -->
+            <ColumnDefinition Width="*"/>
+            <!-- Khoảng cách -->
+            <ColumnDefinition Width="15"/>
+            <!-- Bên phải: Form nhập -->
+            <ColumnDefinition Width="360"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- BẢNG DANH SÁCH KHÁCH HÀNG -->
+        <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="280"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Quản Lý Khách Hàng" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                        <TextBlock Text="Danh sách khách hàng đăng ký đặt sân bóng" FontSize="12" Foreground="#64748B"/>
+                    </StackPanel>
+
+                    <!-- Tìm kiếm (Yêu cầu STT 2) -->
+                    <Grid Grid.Column="1" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="txtSearchCustomer" Style="{StaticResource ModernTextBox}" Tag="Số điện thoại hoặc Tên..." Margin="0,0,5,0" TextChanged="txtSearchCustomer_TextChanged"/>
+                        <Button Content="Tìm" Style="{StaticResource SecondaryButton}" Padding="15,0" Height="36" Grid.Column="1" Click="btnSearchCustomer_Click"/>
+                    </Grid>
+                </Grid>
+
+                <DataGrid x:Name="dgCustomers" Grid.Row="1" Style="{StaticResource ModernDataGrid}" SelectionChanged="dgCustomers_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã" Binding="{Binding MaKhachHang}" Width="60"/>
+                        <DataGridTextColumn Header="Tên khách hàng" Binding="{Binding TenKhachHang}" Width="*"/>
+                        <DataGridTextColumn Header="Số điện thoại" Binding="{Binding SoDienThoai}" Width="150"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}" Width="180"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </Border>
+
+        <!-- FORM THÔNG TIN KHÁCH HÀNG -->
+        <Border Grid.Column="2" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,15">
+                    <TextBlock Text="Chi Tiết Khách Hàng" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                    <TextBlock Text="Thêm mới hoặc cập nhật thông tin khách hàng" FontSize="12" Foreground="#64748B"/>
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,10,0,0"/>
+                </StackPanel>
+
+                <!-- Các trường nhập -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="0,5">
+                        <!-- Tên khách hàng -->
+                        <TextBlock Text="Họ và tên khách hàng *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCustomerName" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+
+                        <!-- Số điện thoại -->
+                        <TextBlock Text="Số điện thoại *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCustomerPhone" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+
+                        <!-- Email -->
+                        <TextBlock Text="Địa chỉ Email" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                        <TextBox x:Name="txtCustomerEmail" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,15"/>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- Nút thao tác -->
+                <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,15"/>
+                    <Button x:Name="btnNewCustomer" Content="Làm Mới Form" Style="{StaticResource SecondaryButton}" Height="38" Margin="0,0,0,10" Click="btnNewCustomer_Click"/>
+                    <Button x:Name="btnSaveCustomer" Content="Lưu Khách Hàng" Style="{StaticResource ModernButton}" Height="38" Margin="0,0,0,10" Click="btnSaveCustomer_Click"/>
+                    <Button x:Name="btnDeleteCustomer" Content="Xóa Khách Hàng" Style="{StaticResource DangerButton}" Height="38" Click="btnDeleteCustomer_Click"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

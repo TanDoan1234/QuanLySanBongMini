@@ -1,0 +1,201 @@
+<UserControl x:Class="doan.Views.UserControls.UC_SanPham"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:doan.Views.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="1000" Background="#F8FAFC">
+    <Grid Margin="15">
+        <Grid.ColumnDefinitions>
+            <!-- Bên trái: Danh mục -->
+            <ColumnDefinition Width="320"/>
+            <!-- Khoảng cách -->
+            <ColumnDefinition Width="15"/>
+            <!-- Bên phải: Sản phẩm -->
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- ================= KHU VỰC DANH MỤC (BÊN TRÁI) ================= -->
+        <Border Grid.Column="0" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,10">
+                    <TextBlock Text="Danh Mục Sản Phẩm" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,5"/>
+                    <TextBlock Text="Quản lý nhóm dịch vụ, nước uống" FontSize="12" Foreground="#64748B" Margin="0,0,0,10"/>
+                    <Separator Height="1" Background="#E2E8F0"/>
+                </StackPanel>
+
+                <!-- Danh sách danh mục -->
+                <ListBox x:Name="lstCategories" Grid.Row="1" BorderThickness="0" Background="Transparent" DisplayMemberPath="TenDanhMuc" SelectionChanged="lstCategories_SelectionChanged" Margin="0,5">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="10,12"/>
+                            <Setter Property="Margin" Value="0,2"/>
+                            <Setter Property="FontSize" Value="14"/>
+                            <Setter Property="FontWeight" Value="SemiBold"/>
+                            <Setter Property="Background" Value="#F1F5F9"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="border" Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}" Margin="{TemplateBinding Margin}">
+                                            <ContentPresenter VerticalAlignment="Center"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="true">
+                                                <Setter TargetName="border" Property="Background" Value="#E2E8F0"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="true">
+                                                <Setter TargetName="border" Property="Background" Value="{StaticResource PrimaryBrush}"/>
+                                                <Setter Property="Foreground" Value="White"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+
+                <!-- Form danh mục -->
+                <StackPanel Grid.Row="2" Margin="0,10,0,0">
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,10"/>
+                    <TextBlock Text="Tên danh mục" FontSize="13" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                    <TextBox x:Name="txtCategoryName" Style="{StaticResource ModernTextBox}" Height="38" Margin="0,0,0,10"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="btnSaveCategory" Content="Lưu" Style="{StaticResource ModernButton}" Height="36" Margin="0,0,5,0" Click="btnSaveCategory_Click"/>
+                        <Button x:Name="btnDeleteCategory" Content="Xóa" Style="{StaticResource DangerButton}" Height="36" Grid.Column="1" Margin="5,0,0,0" Click="btnDeleteCategory_Click"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- ================= KHU VỰC SẢN PHẨM / DỊCH VỤ (BÊN PHẢI) ================= -->
+        <Border Grid.Column="2" CornerRadius="12" Background="White" BorderBrush="#E2E8F0" BorderThickness="1">
+            <Grid Margin="15">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Thanh tiêu đề & tìm kiếm -->
+                <Grid Grid.Row="0" Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="300"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Quản Lý Sản Phẩm &amp; Dịch Vụ" FontSize="18" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,2"/>
+                        <TextBlock Text="Quản lý thông tin, đơn giá, số lượng tồn kho sản phẩm" FontSize="12" Foreground="#64748B"/>
+                    </StackPanel>
+
+                    <!-- Thanh tìm kiếm (Yêu cầu STT 2) -->
+                    <Grid Grid.Column="2" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="txtSearchProduct" Style="{StaticResource ModernTextBox}" Tag="Tìm sản phẩm..." Margin="0,0,5,0" TextChanged="txtSearchProduct_TextChanged"/>
+                        <Button Content="Tìm" Style="{StaticResource SecondaryButton}" Padding="15,0" Height="36" Grid.Column="1" Click="btnSearchProduct_Click"/>
+                    </Grid>
+                </Grid>
+
+                <!-- Grid hiển thị danh sách sản phẩm -->
+                <DataGrid x:Name="dgProducts" Grid.Row="1" Style="{StaticResource ModernDataGrid}" SelectionChanged="dgProducts_SelectionChanged">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Mã" Binding="{Binding MaSanPham}" Width="60"/>
+                        <DataGridTextColumn Header="Tên sản phẩm" Binding="{Binding TenSanPham}" Width="*"/>
+                        <DataGridTextColumn Header="Danh mục" Binding="{Binding DanhMucSanPham.TenDanhMuc}" Width="150"/>
+                        <DataGridTextColumn Header="Giá bán" Binding="{Binding GiaBan, StringFormat={}{0:#,##0} VNĐ}" Width="110"/>
+                        <DataGridTextColumn Header="Tồn kho" Binding="{Binding SoLuongTon}" Width="90"/>
+                        <DataGridTextColumn Header="ĐVT" Binding="{Binding DonViTinh}" Width="80"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Form thêm mới/cập nhật sản phẩm (Yêu cầu STT 3) -->
+                <StackPanel Grid.Row="2" Margin="0,15,0,0">
+                    <Separator Height="1" Background="#E2E8F0" Margin="0,0,0,15"/>
+                    <TextBlock Text="Thông tin chi tiết sản phẩm" FontSize="14" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,10"/>
+                    
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <!-- Cột hình ảnh sản phẩm -->
+                            <ColumnDefinition Width="130"/>
+                            <!-- Cột thông tin 1 -->
+                            <ColumnDefinition Width="*"/>
+                            <!-- Khoảng cách -->
+                            <ColumnDefinition Width="15"/>
+                            <!-- Cột thông tin 2 -->
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Chọn hình ảnh -->
+                        <Border Grid.Column="0" BorderBrush="#E2E8F0" BorderThickness="1.5" CornerRadius="8" Height="110" Width="110" HorizontalAlignment="Left" Background="#F8FAFC">
+                            <Grid>
+                                <Image x:Name="imgProduct" Stretch="UniformToFill" Margin="2"/>
+                                <StackPanel x:Name="panelUploadHint" VerticalAlignment="Center" HorizontalAlignment="Center" Cursor="Hand" MouseDown="panelUploadHint_MouseDown">
+                                    <Path Data="M19.35,10.04C18.67,6.59 15.64,4 12,4C9.11,4 6.6,5.64 5.35,8.04C2.34,8.36 0,10.91 0,14A6,6 0 0,0 6,20H19A5,5 0 0,0 24,15C24,12.36 21.95,10.22 19.35,10.04M14,13V17H10V13H7L12,8L17,13H14Z" 
+                                          Fill="#94A3B8" Width="32" Height="32" HorizontalAlignment="Center"/>
+                                    <TextBlock Text="Chọn Ảnh" FontSize="10" FontWeight="SemiBold" Foreground="#64748B" HorizontalAlignment="Center" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Cột thông tin 1 -->
+                        <StackPanel Grid.Column="1">
+                            <TextBlock Text="Tên sản phẩm *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtProductName" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,10"/>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                
+                                <StackPanel Grid.Column="0">
+                                    <TextBlock Text="Danh mục *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                                    <ComboBox x:Name="cboProductCategory" Style="{StaticResource ModernComboBox}" Height="36" DisplayMemberPath="TenDanhMuc" SelectedValuePath="MaDanhMuc"/>
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2">
+                                    <TextBlock Text="Đơn vị tính *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                                    <TextBox x:Name="txtProductUnit" Style="{StaticResource ModernTextBox}" Height="36" Text="Chai"/>
+                                </StackPanel>
+                            </Grid>
+                        </StackPanel>
+
+                        <!-- Cột thông tin 2 -->
+                        <StackPanel Grid.Column="3">
+                            <TextBlock Text="Giá bán (VNĐ) *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtProductPrice" Style="{StaticResource ModernTextBox}" Height="36" Margin="0,0,0,10"/>
+
+                            <TextBlock Text="Số lượng tồn kho *" FontSize="12" FontWeight="SemiBold" Foreground="#334155" Margin="0,0,0,5"/>
+                            <TextBox x:Name="txtProductStock" Style="{StaticResource ModernTextBox}" Height="36" Text="0" IsEnabled="False" ToolTip="Số lượng tồn kho được điều chỉnh tự động qua hóa đơn nhập hàng"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- Hàng nút hành động -->
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+                        <Button x:Name="btnNewProduct" Content="Làm Mới" Style="{StaticResource SecondaryButton}" Height="38" Width="100" Margin="0,0,10,0" Click="btnNewProduct_Click"/>
+                        <Button x:Name="btnSaveProduct" Content="Lưu Sản Phẩm" Style="{StaticResource ModernButton}" Height="38" Width="140" Margin="0,0,10,0" Click="btnSaveProduct_Click"/>
+                        <Button x:Name="btnDeleteProduct" Content="Xóa Sản Phẩm" Style="{StaticResource DangerButton}" Height="38" Width="130" Click="btnDeleteProduct_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

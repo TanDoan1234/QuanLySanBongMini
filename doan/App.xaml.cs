@@ -19,6 +19,9 @@ namespace doan
 
             try
             {
+                // Khởi tạo thư viện native SQLite cho .NET Framework
+                SQLitePCL.Batteries.Init();
+
                 // Tự động kiểm tra và tạo cơ sở dữ liệu cùng với dữ liệu mẫu (Seed Data)
                 using (var context = new QLSanBongDbContext())
                 {
@@ -28,7 +31,7 @@ namespace doan
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khởi tạo cơ sở dữ liệu SQLite: {ex.Message}", "Lỗi CSDL", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Lỗi khởi tạo cơ sở dữ liệu SQLite: {ex.ToString()}", "Lỗi CSDL", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

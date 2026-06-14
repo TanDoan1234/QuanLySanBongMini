@@ -290,7 +290,7 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <ComboBox x:Name="cboAddProduct" Style="{StaticResource ModernComboBox}" DisplayMemberPath="TenSanPham" SelectedValuePath="MaSanPham" Height="38" Margin="0,0,6,0"/>
-                                <TextBox x:Name="txtAddProductQty" Style="{StaticResource ModernTextBox}" Height="38" Text="1" Margin="0,0,6,0" TextAlignment="Center" Background="#F8FAFC"/>
+                                <TextBox x:Name="txtAddProductQty" Grid.Column="1" Style="{StaticResource ModernTextBox}" Height="38" Text="1" Margin="0,0,6,0" TextAlignment="Center" Background="#F8FAFC"/>
                                 <Button Content="Thêm" Style="{StaticResource SecondaryButton}" Height="38" Padding="15,0" Grid.Column="2" Click="btnAddProduct_Click"/>
                             </Grid>
 
